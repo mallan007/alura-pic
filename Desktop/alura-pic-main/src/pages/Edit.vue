@@ -1,7 +1,7 @@
 <template>
     <div id="signup-title" class="mr-10 ml-10 mb-6 flex flex-row-2 space-x-2 w-auto justify-between">
         <div class="w-219 h-39 top-10 left-458 text-xl justify-start font-bold font-medium text-gray-900 dark:text-white">
-            Cadastrar Usuário
+            Editar Usuário
         </div>
         <div id="btn-back" class="w-35 h-19 top-114 left-1297 justify-end">
             <button>
@@ -90,7 +90,7 @@
         </form>        
     </div>
     
-    <div id="buttons-signup" class="flex items-center justify-end w-[279] h-[70] space-x-2 w-auto mr-10 my-6">
+    <div id="buttons-edit" class="flex items-center justify-end w-[279] h-[70] space-x-2 w-auto mr-10 my-6">
         <button id="btn-cancel" class="w-188 h-49 text-red-500 bg-white hover:bg-red-800 focus:ring-4 focus:outline-none
         focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center border-1 border-red-500 shadow-lg shadow-red-500/50
         dark:bg-white-600 dark:hover:bg-red-700 dark:focus:ring-red-800 dark:text-red-600">
@@ -98,11 +98,11 @@
             Cancelar
         </router-link>
     </button>
-    <button @submit="onSignUp()" action="#" id="btn-signup" type="submit"
+    <button @submit="onEdit()" action="#" id="btn-edit" type="submit"
      class="w-188 h-49 text-white bg-green-600 hover:bg-blue-800 focus:ring-4 focus:outline-none
         focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
         dark:bg-emerald-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        Cadastrar
+        Salvar
     </button>
     </div>
 
@@ -112,7 +112,7 @@
 import router from '@/router';
 
 export default {
-    name: 'SignUp',
+    name: 'Edit',
     data() {
         return {
             email: '',
@@ -123,27 +123,29 @@ export default {
         }
     },
     methods: {
-        onSignUp() {
-            /* 1. Errors: 
-                1.1. Check Validations:
-                ** 1.1.1. Email
-                ** 1.1.2. Password
-                ** 1.1.3. Name
-                1.2. If Valid: return false; If invalid: redirect to login (HardCoded then Axios);
-
+        onEditUser() {
+            /* 
+                1. Check Role: 
+                1.1. If Administrator: can edit all users (HardCoded then Axios);
+                1.2. If Student: can edit only itself (HardCoded then Axios);
                 2. If validations are valid (No Errors), use Axios to send data to backend (Swagger);
                 3. If success: redirect to login;
                 4. If error: catch and throw in errors array and display it on screen;
-                5. Configure AuthGuard;
-                6. Generate Token;
+                5. Check AuthGuard;
+                6. Get Token;
              */
-            let validations = new SignUpValidations(this.email, this.password, this.name);
+            let validations = new Validations(this.id);
             this.errors = validations.checkValidations();
             if (this.errors.length) {
                 return false;
             } else {
-                this.$router.push({ name: 'login' });
+                this.$router.push({ name: 'home' });
             }
+            /*
+                data: keys: { id: id, role: role }
+                load -> "user.info" menos as senhas (confirmar ao pressionar o botão ou não chamar essa parte de editar senhas)
+                Function EditUser -> get user.id and permissions to edit with axios PUT method
+            */
         }
     }
 }

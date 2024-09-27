@@ -1,16 +1,12 @@
 <template>
-  <nav class="navbar navbar-expand-lg flex flex-row-reverse space-x-4 space-x-reverse text-center text-green-700 ps-8">
-    <router-link to="/"> Home </router-link> |
+  <nav class="navbar navbar-expand-lg text-center text-green-700 ps-8">
+    |<router-link to="/"> Home </router-link> |
     <router-link to="/login"> Login </router-link> |
     <router-link to="/signup"> Sign Up </router-link> |
+    <router-link to="/edit"> Edit </router-link> |
   </nav>
-  
-  <div class="container">
-    <div class="row"> 
-      <div class="col-md-12">
+  <div>
         <router-view/>
-      </div>
-    </div>
   </div>
 </template>
 <script>
